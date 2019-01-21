@@ -38,6 +38,16 @@ class TodayView: UIView {
         fatalError()
     }
     
+    func configureForRequiresOnboarding() {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
+        stackView.addArrangedSubview(with(UILabel()) {
+            $0.textAlignment = .center
+            $0.text = NSLocalizedString("Launch the App to get started", comment: "")
+            $0.font = UIFont.preferredFont(forTextStyle: .body)
+        }.wrapped(with: .widgetSecondary()))
+    }
+    
     func configure(with rooms: [Room], hiding: Range<Int>) {
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         

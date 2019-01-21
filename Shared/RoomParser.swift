@@ -26,6 +26,11 @@ public class RoomParser {
     public func findRooms(options: Options = [], completion: @escaping ([Room]) -> Void) {
         let settings = self.settings
         
+        guard EKEventStore.authorizationStatus(for: .event) == .authorized else {
+            completion([])
+            return
+        }
+        
         DispatchQueue.global(qos: .userInitiated).async {
             let nsCalendar = Calendar.current
             

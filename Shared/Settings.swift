@@ -121,6 +121,10 @@ public class Settings {
         }
     }
     
+    public var isOnboarded: Bool {
+        return calendars.isEmpty == false && officeName != nil
+    }
+    
     private func dataInfluencingSettingDidChange() {
         NotificationCenter.default.post(name: .DataInfluencingSettingDidChange, object: nil)
     }

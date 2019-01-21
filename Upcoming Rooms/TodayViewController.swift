@@ -89,6 +89,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             return
         }
         
+        guard settings.isOnboarded else {
+            extensionContext.widgetLargestAvailableDisplayMode = .compact
+            todayView.configureForRequiresOnboarding()
+            return
+        }
+        
         let displayMode: NCWidgetDisplayMode
         
         if rooms.count > 1 {
