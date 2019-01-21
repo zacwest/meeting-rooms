@@ -11,8 +11,8 @@ import UIKit
 import Shared
 
 class CalendarSelectView: UIView {
-    let ctaView = with(CTAView()) {
-        $0.descriptionLabel.text = NSLocalizedString("Choose which calendars you wish to be examined to find room information.", comment: "")
+    let ctaView = with(CTALabelView()) {
+        $0.centerView.text = NSLocalizedString("Choose which calendars you want to have meeting room information pulled from.", comment: "")
         $0.ctaButton.setTitle(NSLocalizedString("Choose Calendars", comment: ""), for: .normal)
     }
     

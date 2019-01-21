@@ -49,6 +49,7 @@ public class Settings {
         var rawValue: String
         
         static let storedCalendars = Keys(rawValue: "Stored Calendars")
+        static let officeName = Keys(rawValue: "Office Nam2e")
     }
     
     internal var storedCalendars: [StoreableCalendar] {
@@ -93,11 +94,23 @@ public class Settings {
         }
     }
     
-    public enum OfficeName: String {
+    public enum OfficeName: String, CaseIterable {
         case sfo = "SFO"
+        case sea = "SEA"
+        case nyc = "NYC"
+        case aus = "AUS"
     }
     
-    public var officeName: OfficeName {
-        return .sfo
+    public var officeName: OfficeName? {
+        get {
+            if let rawValue = UserDefaults(suiteName: appGroup)?.string(forKey: Keys.officeName.rawValue) {
+                return OfficeName(rawValue: rawValue)
+            } else {
+                return nil
+            }
+        }
+        set {
+            UserDefaults(suiteName: appGroup)?.set(newValue?.rawValue, forKey: Keys.officeName.rawValue)
+        }
     }
 }

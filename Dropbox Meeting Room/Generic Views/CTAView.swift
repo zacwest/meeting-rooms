@@ -10,12 +10,8 @@ import Foundation
 import UIKit
 import Shared
 
-class CTAView: UIView {
-    let descriptionLabel = with(UILabel()) {
-        $0.font = UIFont.preferredFont(forTextStyle: .body)
-        $0.adjustsFontForContentSizeCategory = true
-        $0.numberOfLines = 0
-    }
+class CTAView<CenterView: UIView>: UIView {
+    let centerView = CenterView()
     
     let ctaButton = with(UIButton(type: .custom)) {
         with($0.layer) {
@@ -30,6 +26,8 @@ class CTAView: UIView {
             $0?.font = UIFont.preferredFont(forTextStyle: .headline)
             $0?.adjustsFontForContentSizeCategory = true
         }
+        
+        $0.setContentHuggingPriority(.required, for: .vertical)
     }
     
     let stackView = with(UIStackView()) {
@@ -48,7 +46,7 @@ class CTAView: UIView {
             stackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
         ])
         
-        stackView.addArrangedSubview(descriptionLabel)
+        stackView.addArrangedSubview(centerView)
         stackView.addArrangedSubview(ctaButton)
     }
     

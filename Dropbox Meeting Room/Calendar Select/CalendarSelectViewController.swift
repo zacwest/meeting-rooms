@@ -20,7 +20,7 @@ class CalendarSelectViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         
-        title = NSLocalizedString("Calendar Selection", comment: "")
+        title = CalendarSelectViewController.redisplayTitle
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,6 +41,7 @@ class CalendarSelectViewController: UIViewController {
         let chooser = EKCalendarChooser(selectionStyle: .multiple, displayStyle: .allCalendars, entityType: .event, eventStore: settings.eventStore)
         chooser.delegate = self
         chooser.showsDoneButton = true
+        chooser.showsCancelButton = true
         
         // must be set, even if we aren't passing any in (but we might be)
         chooser.selectedCalendars = Set(settings.calendars)
@@ -54,11 +55,23 @@ extension CalendarSelectViewController: RootDisplayable {
     static var shouldDisplay: Bool {
         return Settings().calendars.isEmpty
     }
+    
+    static var canBeRedisplayed: Bool {
+        return true
+    }
+    
+    static var redisplayTitle: String? {
+        return NSLocalizedString("Select Calendars", comment: "")
+    }
 }
 
 extension CalendarSelectViewController: EKCalendarChooserDelegate {
     func calendarChooserSelectionDidChange(_ calendarChooser: EKCalendarChooser) {
         
+    }
+    
+    func calendarChooserDidCancel(_ calendarChooser: EKCalendarChooser) {
+        dismiss(animated: true)
     }
     
     func calendarChooserDidFinish(_ calendarChooser: EKCalendarChooser) {

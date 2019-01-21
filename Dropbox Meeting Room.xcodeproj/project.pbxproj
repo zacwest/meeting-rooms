@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1111D65821F574EF00A115E7 /* RoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1111D65721F574EF00A115E7 /* RoomListViewController.swift */; };
 		1134481621F5355500863193 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134481521F5355500863193 /* AppDelegate.swift */; };
 		1134481D21F5355700863193 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1134481C21F5355700863193 /* Assets.xcassets */; };
 		1134482021F5355700863193 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1134481E21F5355700863193 /* LaunchScreen.storyboard */; };
@@ -35,6 +36,8 @@
 		1134488F21F54DB500863193 /* OfficeNameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134488E21F54DB500863193 /* OfficeNameSelectView.swift */; };
 		1134489121F55C1400863193 /* TodayRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489021F55C1400863193 /* TodayRoomView.swift */; };
 		1134489321F56C7A00863193 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489221F56C7A00863193 /* UIView+Additions.swift */; };
+		1134489521F570C500863193 /* CTALabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489421F570C500863193 /* CTALabelView.swift */; };
+		1134489721F5712C00863193 /* CTAPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489621F5712C00863193 /* CTAPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +90,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1111D65721F574EF00A115E7 /* RoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomListViewController.swift; sourceTree = "<group>"; };
 		1134481221F5355500863193 /* Dropbox Meeting Room.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Meeting Room.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1134481521F5355500863193 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1134481C21F5355700863193 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 		1134488E21F54DB500863193 /* OfficeNameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeNameSelectView.swift; sourceTree = "<group>"; };
 		1134489021F55C1400863193 /* TodayRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayRoomView.swift; sourceTree = "<group>"; };
 		1134489221F56C7A00863193 /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
+		1134489421F570C500863193 /* CTALabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTALabelView.swift; sourceTree = "<group>"; };
+		1134489621F5712C00863193 /* CTAPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTAPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +155,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1111D65521F573DF00A115E7 /* Room List */ = {
+			isa = PBXGroup;
+			children = (
+				1111D65721F574EF00A115E7 /* RoomListViewController.swift */,
+			);
+			path = "Room List";
+			sourceTree = "<group>";
+		};
+		1111D65621F573F600A115E7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1134484D21F5370C00863193 /* Dropbox Meeting Room.entitlements */,
+				1134482121F5355700863193 /* Info.plist */,
+				1134481C21F5355700863193 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		1134480921F5355500863193 = {
 			isa = PBXGroup;
 			children = (
@@ -173,17 +197,16 @@
 		1134481421F5355500863193 /* Dropbox Meeting Room */ = {
 			isa = PBXGroup;
 			children = (
-				1134484D21F5370C00863193 /* Dropbox Meeting Room.entitlements */,
-				1134482121F5355700863193 /* Info.plist */,
 				1134481521F5355500863193 /* AppDelegate.swift */,
-				1134481C21F5355700863193 /* Assets.xcassets */,
 				1134486021F53DB900863193 /* Calendar Select */,
 				1134485321F537F400863193 /* Container */,
 				1134486A21F53F6200863193 /* Generic Views */,
 				1134485D21F53B8E00863193 /* Helpers */,
 				1134481E21F5355700863193 /* LaunchScreen.storyboard */,
 				1134488B21F54D8C00863193 /* Office Name Select */,
+				1111D65521F573DF00A115E7 /* Room List */,
 				1134485421F5384C00863193 /* Permission */,
+				1111D65621F573F600A115E7 /* Resources */,
 			);
 			path = "Dropbox Meeting Room";
 			sourceTree = "<group>";
@@ -249,6 +272,8 @@
 			isa = PBXGroup;
 			children = (
 				1134486B21F53F6900863193 /* CTAView.swift */,
+				1134489421F570C500863193 /* CTALabelView.swift */,
+				1134489621F5712C00863193 /* CTAPickerView.swift */,
 			);
 			path = "Generic Views";
 			sourceTree = "<group>";
@@ -433,9 +458,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1134485821F5389000863193 /* PermissionView.swift in Sources */,
+				1111D65821F574EF00A115E7 /* RoomListViewController.swift in Sources */,
 				1134485A21F5394D00863193 /* RootDisplayable.swift in Sources */,
+				1134489721F5712C00863193 /* CTAPickerView.swift in Sources */,
 				1134486E21F5410F00863193 /* UIImage+Additions.swift in Sources */,
 				1134486C21F53F6900863193 /* CTAView.swift in Sources */,
+				1134489521F570C500863193 /* CTALabelView.swift in Sources */,
 				1134486421F53DE700863193 /* CalendarSelectView.swift in Sources */,
 				1134485621F5385600863193 /* PermissionViewController.swift in Sources */,
 				1134481621F5355500863193 /* AppDelegate.swift in Sources */,
@@ -633,10 +661,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Dropbox Meeting Room/Dropbox Meeting Room.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Dropbox Meeting Room/Resources/Dropbox Meeting Room.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FH8YWD52JM;
-				INFOPLIST_FILE = "Dropbox Meeting Room/Info.plist";
+				INFOPLIST_FILE = "Dropbox Meeting Room/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -653,10 +681,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Dropbox Meeting Room/Dropbox Meeting Room.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Dropbox Meeting Room/Resources/Dropbox Meeting Room.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FH8YWD52JM;
-				INFOPLIST_FILE = "Dropbox Meeting Room/Info.plist";
+				INFOPLIST_FILE = "Dropbox Meeting Room/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -39,7 +39,11 @@ class PermissionViewController: UIViewController {
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
         } else {
             EKEventStore().requestAccess(to: .event) { [weak self] success, error in
-                self?.delegate?.advance()
+                if success {
+                    DispatchQueue.main.async {
+                        self?.delegate?.advance()
+                    }
+                }
             }
         }
     }
@@ -53,5 +57,13 @@ extension PermissionViewController: RootDisplayable {
         case .denied, .notDetermined, .restricted:
             return true
         }
+    }
+    
+    static var canBeRedisplayed: Bool {
+        return false
+    }
+    
+    static var redisplayTitle: String? {
+        return nil
     }
 }

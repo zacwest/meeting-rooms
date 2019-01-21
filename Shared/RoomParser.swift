@@ -86,7 +86,7 @@ public class RoomParser {
                 return nil
             }
             
-            guard city.lowercased() == settings.officeName.rawValue.lowercased() else {
+            guard city.lowercased() == settings.officeName?.rawValue.lowercased() else {
                 return nil
             }
             
