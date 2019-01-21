@@ -10,12 +10,13 @@ import Foundation
 import EventKit
 
 public struct Room: Equatable {
-    internal let event: EKEvent
+    public let event: EKEvent
     internal let city: String?
     internal let building: String?
     internal let roomNumber: String?
     internal let count: String?
     internal let name: String?
+    public let zoomURL: URL?
     
     public static func == (lhs: Room, rhs: Room) -> Bool {
         return lhs.roomNumber == rhs.roomNumber && lhs.event.eventIdentifier == rhs.event.eventIdentifier
@@ -27,16 +28,21 @@ public struct Room: Equatable {
     }
     
     internal init(event: EKEvent) {
-        self.init(event: event, city: nil, building: nil, roomNumber: nil, count: nil, name: nil)
+        self.init(event: event, city: nil, building: nil, roomNumber: nil, count: nil, name: nil, zoomURL: nil)
     }
     
-    internal init(event: EKEvent, city: String?, building: String?, roomNumber: String?, count: String?, name: String?) {
+    internal init(event: EKEvent, city: String?, building: String?, roomNumber: String?, count: String?, name: String?, zoomURL: URL?) {
         self.event = event
         self.city = city
         self.building = building
         self.roomNumber = roomNumber
         self.count = count
         self.name = name
+        self.zoomURL = zoomURL
+    }
+    
+    public var isPastEvent: Bool {
+        return event.endDate < Date()
     }
     
     public var timeTitle: String {
@@ -56,7 +62,7 @@ public struct Room: Equatable {
                 .joined(separator: " ")
                 .replacingOccurrences(of: " (VC)", with: "")
         } else if let location = event.location {
-            return String(format: NSLocalizedString("Unparsed: %@", comment: ""), location)
+            return String(format: NSLocalizedString("IDK: %@", comment: ""), location)
         } else {
             return NSLocalizedString("No Room", comment: "")
         }

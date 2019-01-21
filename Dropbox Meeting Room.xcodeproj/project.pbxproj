@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1111D65821F574EF00A115E7 /* RoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1111D65721F574EF00A115E7 /* RoomListViewController.swift */; };
+		1111D65A21F5966E00A115E7 /* RoomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1111D65921F5966E00A115E7 /* RoomCell.swift */; };
+		1111D65C21F59E7600A115E7 /* RoomTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1111D65B21F59E7600A115E7 /* RoomTableViewController.swift */; };
 		1134481621F5355500863193 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134481521F5355500863193 /* AppDelegate.swift */; };
 		1134481D21F5355700863193 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1134481C21F5355700863193 /* Assets.xcassets */; };
 		1134482021F5355700863193 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1134481E21F5355700863193 /* LaunchScreen.storyboard */; };
@@ -91,6 +93,8 @@
 
 /* Begin PBXFileReference section */
 		1111D65721F574EF00A115E7 /* RoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomListViewController.swift; sourceTree = "<group>"; };
+		1111D65921F5966E00A115E7 /* RoomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomCell.swift; sourceTree = "<group>"; };
+		1111D65B21F59E7600A115E7 /* RoomTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomTableViewController.swift; sourceTree = "<group>"; };
 		1134481221F5355500863193 /* Dropbox Meeting Room.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dropbox Meeting Room.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1134481521F5355500863193 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1134481C21F5355700863193 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 			isa = PBXGroup;
 			children = (
 				1111D65721F574EF00A115E7 /* RoomListViewController.swift */,
+				1111D65921F5966E00A115E7 /* RoomCell.swift */,
+				1111D65B21F59E7600A115E7 /* RoomTableViewController.swift */,
 			);
 			path = "Room List";
 			sourceTree = "<group>";
@@ -469,7 +475,9 @@
 				1134481621F5355500863193 /* AppDelegate.swift in Sources */,
 				1134486221F53DCA00863193 /* CalendarSelectViewController.swift in Sources */,
 				1134488F21F54DB500863193 /* OfficeNameSelectView.swift in Sources */,
+				1111D65C21F59E7600A115E7 /* RoomTableViewController.swift in Sources */,
 				1134485221F537C500863193 /* RootViewController.swift in Sources */,
+				1111D65A21F5966E00A115E7 /* RoomCell.swift in Sources */,
 				1134488D21F54DAB00863193 /* OfficeNameSelectViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

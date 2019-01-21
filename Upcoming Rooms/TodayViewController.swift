@@ -9,6 +9,7 @@
 import UIKit
 import NotificationCenter
 import Shared
+import EventKit
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     private var todayView: TodayView { return view as! TodayView }
@@ -42,14 +43,32 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         super.viewDidLoad()
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(eventStoreDidChange(_:)), name: .EKEventStoreChanged, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: .EKEventStoreChanged, object: nil)
+    }
+    
+    @objc private func eventStoreDidChange(_ notification: Notification) {
+        updateRooms()
+    }
         
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        // Perform any setup necessary in order to update the view.
-        
-        // If an error is encountered, use NCUpdateResult.Failed
-        // If there's no update required, use NCUpdateResult.NoData
-        // If there's an update, use NCUpdateResult.NewData
-
+        updateRooms(completionHandler: completionHandler)
+    }
+    
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        updateView()
+    }
+    
+    private func updateRooms(completionHandler: @escaping (NCUpdateResult) -> Void = {_ in}) {
         roomParser.findRooms { [weak self] rooms in
             guard let this = self else {
                 completionHandler(.failed)
@@ -65,10 +84,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
-    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        updateView()
-    }
-
     private func updateView() {
         guard let extensionContext = extensionContext else {
             return

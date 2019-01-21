@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import EventKit
 
+extension Notification.Name {
+    public static let DataInfluencingSettingDidChange = Notification.Name("DataInfluencingSettingDidChange")
+}
+
 public class Settings {
     private var appGroup: String {
         return "group.us.zac.dmr"
@@ -111,6 +115,11 @@ public class Settings {
         }
         set {
             UserDefaults(suiteName: appGroup)?.set(newValue?.rawValue, forKey: Keys.officeName.rawValue)
+            dataInfluencingSettingDidChange()
         }
+    }
+    
+    private func dataInfluencingSettingDidChange() {
+        NotificationCenter.default.post(name: .DataInfluencingSettingDidChange, object: nil)
     }
 }

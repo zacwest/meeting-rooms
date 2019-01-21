@@ -36,6 +36,10 @@ class OfficeNameSelectViewController: UIViewController {
         with(officeNameSelectView.ctaView.centerView) {
             $0.delegate = self
             $0.dataSource = self
+            
+            if let officeName = settings.officeName, let index = Settings.OfficeName.allCases.firstIndex(of: officeName) {
+                $0.selectRow(index, inComponent: 0, animated: false)
+            }
         }
         
         officeNameSelectView.ctaView.ctaButton.addTarget(self, action: #selector(choose(_:)), for: .touchUpInside)

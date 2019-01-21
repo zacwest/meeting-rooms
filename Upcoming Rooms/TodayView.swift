@@ -45,8 +45,8 @@ class TodayView: UIView {
             stackView.addArrangedSubview(with(UILabel()) {
                 $0.textAlignment = .center
                 $0.text = NSLocalizedString("No Events", comment: "")
-                $0.font = UIFont.preferredFont(forTextStyle: .callout)
-            }.wrapped(with: .widgetSecondary()))
+                $0.font = UIFont.preferredFont(forTextStyle: .body)
+            }.wrapped(with: .widgetPrimary()))
         } else {
             // todo: reuse
             rooms.map { room in

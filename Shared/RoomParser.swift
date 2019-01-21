@@ -12,16 +12,30 @@ import EventKit
 public class RoomParser {
     let settings: Settings
     
+    public struct Options: OptionSet {
+        public let rawValue: Int
+        public init(rawValue: Int) { self.rawValue = rawValue }
+        
+        public static let includePastEvents = Options(rawValue: 0b1)
+    }
+    
     public init(settings: Settings) {
         self.settings = settings
     }
     
-    public func findRooms(completion: @escaping ([Room]) -> Void) {
+    public func findRooms(options: Options = [], completion: @escaping ([Room]) -> Void) {
         let settings = self.settings
         
         DispatchQueue.global(qos: .userInitiated).async {
             let nsCalendar = Calendar.current
-            let startDate = Date()
+            
+            let startDate: Date
+            if options.contains(.includePastEvents) {
+                startDate = nsCalendar.startOfDay(for: Date())
+            } else {
+                startDate = Date()
+            }
+            
             let endDate = nsCalendar.date(
                 byAdding: with(DateComponents()) {
                     $0.day = 1
@@ -31,8 +45,12 @@ public class RoomParser {
             )!
             
             //
+            
+            let officeName = settings.officeName?.rawValue ?? "SFO"
+            let officeNames = Settings.OfficeName.allCases.map { NSRegularExpression.escapedPattern(for: $0.rawValue) }.joined(separator: "|")
+            
             guard let regularExpression = try? NSRegularExpression(
-                pattern: "(\\(.+?\\)\\s)*(?<city>\\w+) (?<building>[^-]+) - [^\\d]*(?<room>\\d+) \\((?<count>\\d+)\\) (?<name>.*)?( \\(VC\\))?",
+                pattern: "(?<city>(?:\(officeName))) (?<building>[^-]+) - [^\\d]*(?<room>\\d+) \\((?<count>\\d+)\\) (?<name>(?:(?!\(officeNames)|\\(VC\\)).)+)",
                 options: [.useUnicodeWordBoundaries]
             ) else {
                 DispatchQueue.main.async {
@@ -55,25 +73,23 @@ public class RoomParser {
     }
     
     class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room {
-        guard let locations = event.location?.split(separator: ",") else {
+        guard let locations = event.location else {
             return Room(event: event)
         }
-        
-        let rooms = locations.lazy.compactMap { (locationSubstring: Substring) -> Room? in
-            let location = String(locationSubstring)
-            
-            guard let result = regularExpression.firstMatch(in: location, options: [], range: NSRange(location: 0, length: location.utf16.count)) else {
-                return nil
-            }
 
+        let room = regularExpression.firstMatch(
+            in: locations,
+            options: [],
+            range: NSRange(location: 0, length: locations.utf16.count)
+        ).flatMap { (result: NSTextCheckingResult) -> Room? in
             func string(from name: String) -> String? {
                 let range = result.range(withName: name)
                 
                 if range.location == NSNotFound {
                     return nil
                 }
-                
-                return (location as NSString).substring(with: range)
+
+                return (locations as NSString).substring(with: range)
             }
             
             guard
@@ -90,13 +106,25 @@ public class RoomParser {
                 return nil
             }
             
-            return Room(event: event, city: city, building: building, roomNumber: roomNumber, count: count, name: name)
+            var zoomURL: URL?
+            
+            if let dataDetector = try? NSDataDetector(types: NSTextCheckingTypes(NSTextCheckingResult.CheckingType.link.rawValue)) {
+                let possibleURLs = (event.location ?? "") + (event.notes ?? "")
+                dataDetector.enumerateMatches(in: possibleURLs, options: [], range: NSRange(location: 0, length: possibleURLs.utf16.count), using: { result, _, stop in
+                    guard let url = result?.url else {
+                        return
+                    }
+                    
+                    if url.host == "dropbox.zoom.us" {
+                        stop[0] = true
+                        zoomURL = url
+                    }
+                })
+            }
+            
+            return Room(event: event, city: city, building: building, roomNumber: roomNumber, count: count, name: name, zoomURL: zoomURL)
         }
         
-        if let locationRoom = rooms.first {
-            return locationRoom
-        } else {
-            return Room(event: event)
-        }
+        return room ?? Room(event: event)
     }
 }
