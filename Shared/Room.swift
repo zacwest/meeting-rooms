@@ -69,7 +69,7 @@ public struct Room: Equatable, Comparable {
         return Room.formatter.string(from: event.startDate, to: event.endDate)
     }
     
-    public var roomTitle: String {
+    public var roomTitle: String? {
         if let roomNumber = roomNumber, let name = name {
             return [
                 roomNumber,
@@ -78,7 +78,7 @@ public struct Room: Equatable, Comparable {
         } else if let location = event.location, location.isEmpty == false {
             return location
         } else {
-            return NSLocalizedString("No Room", comment: "")
+            return nil
         }
     }
     

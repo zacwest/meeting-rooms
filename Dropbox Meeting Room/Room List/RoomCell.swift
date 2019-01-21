@@ -100,7 +100,13 @@ class RoomCell: UITableViewCell {
             eventLabel.isHidden = true
         }
         
-        roomLabel.text = room.roomTitle
+        if let roomTitle = room.roomTitle {
+            roomLabel.text = roomTitle
+            roomLabel.isHidden = false
+        } else {
+            roomLabel.isHidden = true
+        }
+        
         zoomButton.isHidden = room.isPastEvent || room.zoomURL == nil
         
         let textColor: UIColor = room.isPastEvent ? .gray : .black
