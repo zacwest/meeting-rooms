@@ -116,7 +116,12 @@ extension RoomListViewController: RoomTableViewControllerDelegate {
         let navigationController = UINavigationController(rootViewController: eventViewController)
         navigationController.navigationBar.isTranslucent = false
         present(navigationController, animated: true, completion: nil)
-
+    }
+    
+    func roomTableViewController(_ controller: RoomTableViewController, didSelectZoomFor room: Room) {
+        guard let URL = room.zoomURL else { return }
+        
+        UIApplication.shared.open(URL, options: [:], completionHandler: nil)
     }
 }
 

@@ -10,8 +10,14 @@ import Foundation
 import UIKit
 import Shared
 
+protocol RoomCellDelegate: class {
+    func roomCellDidSelectJoinZoom(_ cell: RoomCell)
+}
+
 class RoomCell: UITableViewCell {
     static let reuseIdentifier = "RoomCell"
+    
+    weak var delegate: RoomCellDelegate?
     
     let timeLabel = with(UILabel()) {
         $0.font = UIFont.preferredFont(forTextStyle: .headline)
@@ -60,6 +66,8 @@ class RoomCell: UITableViewCell {
         stackView.addArrangedSubview(zoomButton)
         
         selectedBackgroundView = UIView()
+        
+        zoomButton.addTarget(self, action: #selector(joinZoom(_:)), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,6 +84,10 @@ class RoomCell: UITableViewCell {
         with(zoomButton) {
             $0.tintColor = tintColor
         }
+    }
+    
+    @objc private func joinZoom(_ sender: UIButton) {
+        delegate?.roomCellDidSelectJoinZoom(self)
     }
     
     func configure(room: Room) {

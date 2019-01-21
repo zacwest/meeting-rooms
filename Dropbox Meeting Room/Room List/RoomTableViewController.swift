@@ -12,6 +12,7 @@ import Shared
 
 protocol RoomTableViewControllerDelegate: class {
     func roomTableViewController(_ controller: RoomTableViewController, didSelect room: Room)
+    func roomTableViewController(_ controller: RoomTableViewController, didSelectZoomFor room: Room)
 }
 
 class RoomTableViewController: UITableViewController {
@@ -42,6 +43,7 @@ class RoomTableViewController: UITableViewController {
         with(tableView!) {
             $0.backgroundColor = .white
             $0.alwaysBounceVertical = true
+            $0.estimatedRowHeight = 100
             $0.register(RoomCell.self, forCellReuseIdentifier: RoomCell.reuseIdentifier)
         }
     }
@@ -56,6 +58,7 @@ class RoomTableViewController: UITableViewController {
         if let cell = cell as? RoomCell {
             let room = rooms[indexPath.row]
             cell.configure(room: room)
+            cell.delegate = self
         }
         
         return cell
@@ -64,5 +67,15 @@ class RoomTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let room = rooms[indexPath.row]
         delegate?.roomTableViewController(self, didSelect: room)
+    }
+}
+
+extension RoomTableViewController: RoomCellDelegate {
+    func roomCellDidSelectJoinZoom(_ cell: RoomCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else {
+            return
+        }
+        
+        delegate?.roomTableViewController(self, didSelectZoomFor: rooms[indexPath.row])
     }
 }
