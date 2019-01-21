@@ -79,7 +79,11 @@ public class RoomParser {
         }
     }
     
-    class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room {
+    class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room? {
+        if let attendee = event.attendees?.first(where: { $0.isCurrentUser }), attendee.participantStatus == .declined {
+            return nil
+        }
+
         guard let locations = event.location else {
             return Room(event: event)
         }
