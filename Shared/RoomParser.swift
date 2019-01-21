@@ -64,7 +64,9 @@ public class RoomParser {
                     withStart: startDate,
                     end: endDate,
                     calendars: settings.calendars
-                )).compactMap { RoomParser.room(for: $0, regularExpression: regularExpression, settings: settings) }
+                )).compactMap {
+                    RoomParser.room(for: $0, regularExpression: regularExpression, settings: settings)
+                }.sorted()
             
             DispatchQueue.main.async {
                 completion(rooms)

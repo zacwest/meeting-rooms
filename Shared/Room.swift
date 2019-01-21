@@ -9,7 +9,7 @@
 import Foundation
 import EventKit
 
-public struct Room: Equatable {
+public struct Room: Equatable, Comparable {
     public let event: EKEvent
     internal let city: String?
     internal let building: String?
@@ -20,6 +20,18 @@ public struct Room: Equatable {
     
     public static func == (lhs: Room, rhs: Room) -> Bool {
         return lhs.roomNumber == rhs.roomNumber && lhs.event.eventIdentifier == rhs.event.eventIdentifier
+    }
+    
+    public static func < (lhs: Room, rhs: Room) -> Bool {
+        if lhs.isAllDayEvent && !rhs.isAllDayEvent {
+            return false
+        }
+        
+        if !lhs.isAllDayEvent && rhs.isAllDayEvent {
+            return true
+        }
+        
+        return lhs.event.startDate < rhs.event.startDate
     }
     
     static internal var formatter = with(DateIntervalFormatter()) {
@@ -43,6 +55,10 @@ public struct Room: Equatable {
     
     public var isPastEvent: Bool {
         return event.endDate < Date()
+    }
+    
+    public var isAllDayEvent: Bool {
+        return event.isAllDay
     }
     
     public var timeTitle: String {
@@ -69,6 +85,10 @@ public struct Room: Equatable {
     }
     
     public var eventTitle: String? {
-        return event.title
+        if let title = event.title, title.isEmpty == false {
+            return title
+        } else {
+            return nil
+        }
     }
 }

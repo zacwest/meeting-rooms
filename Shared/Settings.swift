@@ -95,6 +95,8 @@ public class Settings {
             } catch let error {
                 print("got error: \(error)")
             }
+            
+            dataInfluencingSettingDidChange()
         }
     }
     
