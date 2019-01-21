@@ -17,7 +17,7 @@ class PermissionViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         
-        title = NSLocalizedString("Calendar Permission", comment: "")
+        title = NSLocalizedString("Permissions", comment: "")
     }
     
     required init?(coder aDecoder: NSCoder) {

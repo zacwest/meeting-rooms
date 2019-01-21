@@ -12,8 +12,8 @@ import Shared
 
 class PermissionView: UIView {
     let ctaView = with(CTALabelView()) {
-        $0.centerView.text = NSLocalizedString("You must grant access to your Calendars to use this application.", comment: "")
-        $0.ctaButton.setTitle(NSLocalizedString("Grant Permission", comment: ""), for: .normal)
+        $0.centerView.text = NSLocalizedString("Locations and meeting rooms are read from the Calendars on your device. You gotta do this.", comment: "")
+        $0.ctaButton.setTitle(NSLocalizedString("Grant Access", comment: ""), for: .normal)
     }
 
     override init(frame: CGRect) {
