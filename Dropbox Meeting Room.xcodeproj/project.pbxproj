@@ -15,7 +15,6 @@
 		1134482021F5355700863193 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1134481E21F5355700863193 /* LaunchScreen.storyboard */; };
 		1134483C21F5357E00863193 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1134483B21F5357E00863193 /* NotificationCenter.framework */; };
 		1134483F21F5357E00863193 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134483E21F5357E00863193 /* TodayViewController.swift */; };
-		1134484221F5357E00863193 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1134484021F5357E00863193 /* MainInterface.storyboard */; };
 		1134484621F5357E00863193 /* Upcoming Rooms.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 1134483921F5357D00863193 /* Upcoming Rooms.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1134484C21F5367000863193 /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134484B21F5367000863193 /* TodayView.swift */; };
 		1134485221F537C500863193 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134485121F537C500863193 /* RootViewController.swift */; };
@@ -103,7 +102,6 @@
 		1134483921F5357D00863193 /* Upcoming Rooms.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Upcoming Rooms.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1134483B21F5357E00863193 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		1134483E21F5357E00863193 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		1134484121F5357E00863193 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		1134484321F5357E00863193 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1134484B21F5367000863193 /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		1134484D21F5370C00863193 /* Dropbox Meeting Room.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Dropbox Meeting Room.entitlements"; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 				1134484E21F5372200863193 /* Upcoming Rooms.entitlements */,
 				1134483E21F5357E00863193 /* TodayViewController.swift */,
 				1134484B21F5367000863193 /* TodayView.swift */,
-				1134484021F5357E00863193 /* MainInterface.storyboard */,
 				1134484321F5357E00863193 /* Info.plist */,
 				1134489021F55C1400863193 /* TodayRoomView.swift */,
 				1134489221F56C7A00863193 /* UIView+Additions.swift */,
@@ -445,7 +442,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1134484221F5357E00863193 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,14 +527,6 @@
 				1134481F21F5355700863193 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		1134484021F5357E00863193 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1134484121F5357E00863193 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
