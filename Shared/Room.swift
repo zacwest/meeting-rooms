@@ -61,7 +61,7 @@ public struct Room: Equatable {
             ]
                 .joined(separator: " ")
                 .replacingOccurrences(of: " (VC)", with: "")
-        } else if let location = event.location {
+        } else if let location = event.location, location.isEmpty == false {
             return String(format: NSLocalizedString("No Local Room: %@", comment: ""), location)
         } else {
             return NSLocalizedString("No Room", comment: "")
