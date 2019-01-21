@@ -70,11 +70,18 @@ public struct Room: Equatable, Comparable {
     }
     
     public var roomTitle: String? {
-        if let roomNumber = roomNumber, let name = name {
-            return [
-                roomNumber,
-                name,
-            ].joined(separator: " ")
+        var components: [String] = []
+        
+        if let roomNumber = roomNumber {
+            components.append(roomNumber)
+        }
+        
+        if let name = name {
+            components.append(name)
+        }
+        
+        if !components.isEmpty {
+            return components.joined(separator: " ")
         } else if let location = event.location, location.isEmpty == false {
             return location
         } else {
