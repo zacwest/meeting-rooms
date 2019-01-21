@@ -74,9 +74,7 @@ public struct Room: Equatable, Comparable {
             return [
                 roomNumber,
                 name,
-            ]
-                .joined(separator: " ")
-                .replacingOccurrences(of: " (VC)", with: "")
+            ].joined(separator: " ")
         } else if let location = event.location, location.isEmpty == false {
             return location
         } else {
