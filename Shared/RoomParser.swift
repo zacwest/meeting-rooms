@@ -70,7 +70,7 @@ public class RoomParser {
                     end: endDate,
                     calendars: settings.calendars
                 )).compactMap {
-                    RoomParser.room(for: $0, regularExpression: regularExpression, settings: settings)
+                    RoomParser.room(for: $0, regularExpression: regularExpression)
                 }.sorted()
             
             DispatchQueue.main.async {
@@ -79,7 +79,7 @@ public class RoomParser {
         }
     }
     
-    class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room? {
+    class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room? {
         if let attendee = event.attendees?.first(where: { $0.isCurrentUser }), attendee.participantStatus == .declined {
             return nil
         }
@@ -112,11 +112,7 @@ public class RoomParser {
             else {
                 return nil
             }
-            
-            guard city.lowercased() == settings.officeName?.rawValue.lowercased() else {
-                return nil
-            }
-            
+
             var zoomURL: URL?
             
             if let dataDetector = try? NSDataDetector(types: NSTextCheckingTypes(NSTextCheckingResult.CheckingType.link.rawValue)) {
