@@ -69,7 +69,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     private func updateRooms(completionHandler: @escaping (NCUpdateResult) -> Void = {_ in}) {
-        roomParser.findRooms { [weak self] rooms in
+        roomParser.findRooms(options: .excludeAllDayEvents) { [weak self] rooms in
             guard let this = self else {
                 completionHandler(.failed)
                 return

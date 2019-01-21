@@ -17,6 +17,7 @@ public class RoomParser {
         public init(rawValue: Int) { self.rawValue = rawValue }
         
         public static let includePastEvents = Options(rawValue: 0b1)
+        public static let excludeAllDayEvents = Options(rawValue: 0b10)
     }
     
     public init(settings: Settings) {
@@ -69,8 +70,16 @@ public class RoomParser {
                     withStart: startDate,
                     end: endDate,
                     calendars: settings.calendars
-                )).compactMap {
-                    RoomParser.room(for: $0, regularExpression: regularExpression)
+                )).compactMap { (event: EKEvent) -> Room? in
+                    if options.contains(.excludeAllDayEvents), event.isAllDay {
+                        return nil
+                    }
+                    
+                    if let attendee = event.attendees?.first(where: { $0.isCurrentUser }), attendee.participantStatus == .declined {
+                        return nil
+                    }
+                    
+                    return RoomParser.room(for: event, regularExpression: regularExpression)
                 }.sorted()
             
             DispatchQueue.main.async {
@@ -80,10 +89,6 @@ public class RoomParser {
     }
     
     class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room? {
-        if let attendee = event.attendees?.first(where: { $0.isCurrentUser }), attendee.participantStatus == .declined {
-            return nil
-        }
-
         guard let locations = event.location else {
             return Room(event: event)
         }
