@@ -10,18 +10,18 @@ import Foundation
 import UIKit
 import EventKit
 
-class Settings {
+public class Settings {
     private var appGroup: String {
         return "group.us.zac.dmr"
     }
     
-    lazy private(set) var eventStore = EKEventStore()
-    
-    var tintColor: UIColor {
-        return .blue
+    public init() {
+        
     }
     
-    struct StoreableCalendar: Codable {
+    lazy public internal(set) var eventStore = EKEventStore()
+
+    internal struct StoreableCalendar: Codable {
         var calendarIdentifier: String?
         var title: String?
         var sourceIdentifier: String?
@@ -51,7 +51,7 @@ class Settings {
         static let storedCalendars = Keys(rawValue: "Stored Calendars")
     }
     
-    private var storedCalendars: [StoreableCalendar] {
+    internal var storedCalendars: [StoreableCalendar] {
         get {
             guard let data = UserDefaults(suiteName: appGroup)?.data(forKey: Keys.storedCalendars.rawValue) else {
                 return []
@@ -70,7 +70,7 @@ class Settings {
         }
     }
     
-    var calendars: [EKCalendar] {
+    public var calendars: [EKCalendar] {
         get {
             let storedCalendars = self.storedCalendars
             return eventStore.calendars(for: .event).filter { calendar in
@@ -91,5 +91,13 @@ class Settings {
                 print("got error: \(error)")
             }
         }
+    }
+    
+    public enum OfficeName: String {
+        case sfo = "SFO"
+    }
+    
+    public var officeName: OfficeName {
+        return .sfo
     }
 }

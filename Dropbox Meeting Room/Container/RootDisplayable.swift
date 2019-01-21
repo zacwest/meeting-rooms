@@ -7,3 +7,12 @@
 //
 
 import Foundation
+
+protocol RootDisplayableDelegate: class {
+    func advance()
+}
+
+protocol RootDisplayable: class {
+    static var shouldDisplay: Bool { get }
+    /* weak */ var delegate: RootDisplayableDelegate? { get set }
+}
