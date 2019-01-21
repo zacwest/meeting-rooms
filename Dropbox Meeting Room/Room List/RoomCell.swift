@@ -39,7 +39,7 @@ class RoomCell: UITableViewCell {
     }
     let stackView = with(UIStackView()) {
         $0.axis = .vertical
-        $0.spacing = 8.0
+        $0.spacing = 4.0
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -80,7 +80,14 @@ class RoomCell: UITableViewCell {
     
     func configure(room: Room) {
         timeLabel.text = room.timeTitle
-        eventLabel.text = room.eventTitle
+        
+        if let eventTitle = room.eventTitle {
+            eventLabel.text = eventTitle
+            eventLabel.isHidden = false
+        } else {
+            eventLabel.isHidden = true
+        }
+        
         roomLabel.text = room.roomTitle
         zoomButton.isHidden = room.isPastEvent || room.zoomURL == nil
         

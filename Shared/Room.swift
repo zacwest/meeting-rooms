@@ -68,7 +68,7 @@ public struct Room: Equatable {
         }
     }
     
-    public var eventTitle: String {
+    public var eventTitle: String? {
         return event.title
     }
 }
