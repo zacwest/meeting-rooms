@@ -127,7 +127,7 @@ public class RoomParser {
                         return
                     }
                     
-                    if url.host == "dropbox.zoom.us" {
+                    if url.host.contains("zoom.us") {
                         stop[0] = true
                         zoomURL = url
                     }
