@@ -16,7 +16,7 @@ extension Notification.Name {
 
 public class Settings {
     private var appGroup: String {
-        return "group.us.zac.dmr"
+        return "group.zac.us.meeting-rooms"
     }
     
     public init() {

@@ -17,15 +17,15 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(DMR_VERSION_NUMBER)</string>
+	<string>$(BASE_VERSION_NUMBER)</string>
 	<key>CFBundleVersion</key>
-	<string>$(DMR_BUILD_NUMBER)</string>
+	<string>$(BASE_BUILD_NUMBER)</string>
 	<key>NSExtension</key>
 	<dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>Upcoming_Rooms.TodayViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widget-extension</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>Upcoming_Rooms.TodayViewController</string>
 	</dict>
 </dict>
 </plist>
