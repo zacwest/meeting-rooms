@@ -88,7 +88,7 @@ public class RoomParser {
         }
     }
     
-    class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room? {
+    class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room {
         guard let locations = event.location else {
             return Room(event: event)
         }
@@ -127,7 +127,7 @@ public class RoomParser {
                         return
                     }
                     
-                    if url.host.contains("zoom.us") {
+                    if url.host?.contains("zoom.us") == true {
                         stop[0] = true
                         zoomURL = url
                     }
