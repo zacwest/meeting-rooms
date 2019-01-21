@@ -34,6 +34,7 @@
 		1134488D21F54DAB00863193 /* OfficeNameSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134488C21F54DAB00863193 /* OfficeNameSelectViewController.swift */; };
 		1134488F21F54DB500863193 /* OfficeNameSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134488E21F54DB500863193 /* OfficeNameSelectView.swift */; };
 		1134489121F55C1400863193 /* TodayRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489021F55C1400863193 /* TodayRoomView.swift */; };
+		1134489321F56C7A00863193 /* UIView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1134489221F56C7A00863193 /* UIView+Additions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,7 @@
 		1134488C21F54DAB00863193 /* OfficeNameSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeNameSelectViewController.swift; sourceTree = "<group>"; };
 		1134488E21F54DB500863193 /* OfficeNameSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeNameSelectView.swift; sourceTree = "<group>"; };
 		1134489021F55C1400863193 /* TodayRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayRoomView.swift; sourceTree = "<group>"; };
+		1134489221F56C7A00863193 /* UIView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				1134484021F5357E00863193 /* MainInterface.storyboard */,
 				1134484321F5357E00863193 /* Info.plist */,
 				1134489021F55C1400863193 /* TodayRoomView.swift */,
+				1134489221F56C7A00863193 /* UIView+Additions.swift */,
 			);
 			path = "Upcoming Rooms";
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1134489321F56C7A00863193 /* UIView+Additions.swift in Sources */,
 				1134489121F55C1400863193 /* TodayRoomView.swift in Sources */,
 				1134484C21F5367000863193 /* TodayView.swift in Sources */,
 				1134483F21F5357E00863193 /* TodayViewController.swift in Sources */,

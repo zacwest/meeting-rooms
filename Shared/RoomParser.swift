@@ -54,13 +54,13 @@ public class RoomParser {
         }
     }
     
-    class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room? {
-        guard let locations = event.location?.split(separator: ",") else { return nil }
+    class func room(for event: EKEvent, regularExpression: NSRegularExpression, settings: Settings) -> Room {
+        guard let locations = event.location?.split(separator: ",") else {
+            return Room(event: event)
+        }
         
-        return locations.lazy.compactMap { (locationSubstring: Substring) -> Room? in
+        let rooms = locations.lazy.compactMap { (locationSubstring: Substring) -> Room? in
             let location = String(locationSubstring)
-            
-            var correctRoom: Room?
             
             guard let result = regularExpression.firstMatch(in: location, options: [], range: NSRange(location: 0, length: location.utf16.count)) else {
                 return nil
@@ -91,6 +91,12 @@ public class RoomParser {
             }
             
             return Room(event: event, city: city, building: building, roomNumber: roomNumber, count: count, name: name)
-        }.first
+        }
+        
+        if let locationRoom = rooms.first {
+            return locationRoom
+        } else {
+            return Room(event: event)
+        }
     }
 }

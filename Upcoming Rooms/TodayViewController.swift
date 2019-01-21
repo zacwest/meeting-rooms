@@ -41,7 +41,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
         
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
@@ -69,28 +68,29 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         updateView()
     }
-    
+
     private func updateView() {
         guard let extensionContext = extensionContext else {
             return
         }
         
-        if rooms.count == 0 {
-            todayView.configure(with: rooms)
-            return
-        }
+        let displayMode: NCWidgetDisplayMode
         
         if rooms.count > 1 {
             extensionContext.widgetLargestAvailableDisplayMode = .expanded
+            displayMode = extensionContext.widgetActiveDisplayMode
         } else {
             extensionContext.widgetLargestAvailableDisplayMode = .compact
+            displayMode = .compact
         }
         
-        switch extensionContext.widgetActiveDisplayMode {
+        switch displayMode {
         case .expanded:
-            todayView.configure(with: rooms)
-        case .compact:
-            todayView.configure(with: [rooms[0]])
+            todayView.configure(with: rooms, hiding: 0..<0)
+        case .compact where rooms.count > 1:
+            todayView.configure(with: rooms, hiding: 1..<rooms.count)
+        default:
+            todayView.configure(with: rooms, hiding: 0..<0)
         }
     }
 }

@@ -13,6 +13,7 @@ import Shared
 class TodayView: UIView {
     let stackView = with(UIStackView()) {
         $0.axis = .vertical
+        $0.spacing = 24.0
     }
     
     override init(frame: CGRect) {
@@ -21,10 +22,15 @@ class TodayView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stackView.topAnchor.constraint(greaterThanOrEqualTo: layoutMarginsGuide.topAnchor),
+            with(stackView.bottomAnchor.constraint(lessThanOrEqualTo: layoutMarginsGuide.bottomAnchor)) {
+                $0.priority = .defaultHigh
+            },
+            stackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            with(stackView.centerYAnchor.constraint(equalTo: layoutMarginsGuide.centerYAnchor)) {
+                $0.priority = .defaultHigh
+            },
         ])
     }
     
@@ -32,24 +38,25 @@ class TodayView: UIView {
         fatalError()
     }
     
-    func configure(with rooms: [Room]) {
-        var roomViews = stackView.arrangedSubviews.compactMap { $0 as? TodayRoomView }
+    func configure(with rooms: [Room], hiding: Range<Int>) {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
-        if roomViews.count == rooms.count {
-            
-        } else if roomViews.count > rooms.count {
-            roomViews[rooms.count...].forEach { $0.removeFromSuperview() }
-            roomViews.removeSubrange(rooms.count...)
+        if rooms.isEmpty {
+            stackView.addArrangedSubview(with(UILabel()) {
+                $0.textAlignment = .center
+                $0.text = NSLocalizedString("No Events", comment: "")
+                $0.font = UIFont.preferredFont(forTextStyle: .callout)
+            }.wrapped(with: .widgetSecondary()))
         } else {
-            for _ in 0 ..< (rooms.count - roomViews.count) {
-                let view = TodayRoomView()
-                roomViews.append(view)
+            // todo: reuse
+            rooms.map { room in
+                return with(TodayRoomView()) {
+                    $0.configure(with: room)
+                }
+            }.enumerated().forEach { idx, view in
                 stackView.addArrangedSubview(view)
+                view.isHidden = hiding.contains(idx)
             }
-        }
-        
-        roomViews.enumerated().forEach { idx, roomView in
-            roomView.configure(with: rooms[idx])
         }
     }
 }
