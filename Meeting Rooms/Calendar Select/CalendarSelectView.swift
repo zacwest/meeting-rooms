@@ -13,7 +13,7 @@ import Shared
 class CalendarSelectView: UIView {
     let ctaView = with(CTALabelView()) {
         $0.centerView.text = NSLocalizedString("Choose which calendars you want to have meeting room information pulled from.", comment: "")
-        $0.ctaButton.setTitle(NSLocalizedString("Choose Calendars", comment: ""), for: .normal)
+        $0.ctaButton.setTitle(NSLocalizedString("Select Calendars", comment: ""), for: .normal)
     }
     
     override init(frame: CGRect) {
