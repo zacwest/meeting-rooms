@@ -75,6 +75,9 @@ class RoomListViewController: UIViewController {
         if tableViewController.rooms.isEmpty {
             updateRooms()
         }
+        
+        // in case an event detail screen showed it, we want to hide it again
+        navigationController?.setToolbarHidden(true, animated: true)
     }
     
     @objc private func settings(_ sender: UIButton) {
