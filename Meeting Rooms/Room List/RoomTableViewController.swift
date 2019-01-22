@@ -13,14 +13,26 @@ import Shared
 protocol RoomTableViewControllerDelegate: class {
     func roomTableViewController(_ controller: RoomTableViewController, didSelect room: Room)
     func roomTableViewController(_ controller: RoomTableViewController, didSelectZoomFor room: Room)
+    func roomTableViewController(_ controller: RoomTableViewController, previewControllerFor room: Room) -> UIViewController?
+    func roomTableViewController(_ controller: RoomTableViewController, commitPreview previewController: UIViewController)
 }
 
 class RoomTableViewController: UITableViewController {
     weak var delegate: RoomTableViewControllerDelegate?
     
-    var rooms: [Room] = [] {
+    var sectionTitles: [Int: String] = [:] {
         didSet {
-            tableView.reloadData()
+            if isViewLoaded {
+                tableView.reloadData()
+            }
+        }
+    }
+    
+    var rooms: [[Room]] = [] {
+        didSet {
+            if isViewLoaded {
+                tableView.reloadData()
+            }
         }
     }
     
@@ -46,18 +58,35 @@ class RoomTableViewController: UITableViewController {
             $0.estimatedRowHeight = 100
             $0.register(RoomCell.self, forCellReuseIdentifier: RoomCell.reuseIdentifier)
         }
+        
+        registerForPreviewing(with: self, sourceView: tableView)
+    }
+    
+    private func room(for indexPath: IndexPath) -> Room {
+        return rooms[indexPath.section][indexPath.row]
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return rooms.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rooms.count
+        return rooms[section].count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if rooms[section].count > 0 {
+            return sectionTitles[section]
+        } else {
+            return nil
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RoomCell.reuseIdentifier, for: indexPath)
         
         if let cell = cell as? RoomCell {
-            let room = rooms[indexPath.row]
-            cell.configure(room: room)
+            cell.configure(room: room(for: indexPath))
             cell.delegate = self
         }
         
@@ -65,8 +94,7 @@ class RoomTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let room = rooms[indexPath.row]
-        delegate?.roomTableViewController(self, didSelect: room)
+        delegate?.roomTableViewController(self, didSelect: room(for: indexPath))
     }
 }
 
@@ -76,6 +104,20 @@ extension RoomTableViewController: RoomCellDelegate {
             return
         }
         
-        delegate?.roomTableViewController(self, didSelectZoomFor: rooms[indexPath.row])
+        delegate?.roomTableViewController(self, didSelectZoomFor: room(for: indexPath))
+    }
+}
+
+extension RoomTableViewController: UIViewControllerPreviewingDelegate {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
+        delegate?.roomTableViewController(self, commitPreview: viewControllerToCommit)
+    }
+    
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else {
+            return nil
+        }
+        
+        return delegate?.roomTableViewController(self, previewControllerFor: room(for: indexPath))
     }
 }

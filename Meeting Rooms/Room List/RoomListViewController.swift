@@ -25,6 +25,9 @@ class RoomListViewController: UIViewController {
         self.roomParser = RoomParser(settings: settings)
         
         tableViewController = RoomTableViewController()
+        tableViewController.sectionTitles = [
+            1: NSLocalizedString("Tomorrow", comment: "")
+        ]
         
         super.init(nibName: nil, bundle: nil)
         
@@ -87,8 +90,11 @@ class RoomListViewController: UIViewController {
     }
     
     private func updateRooms() {
-        roomParser.findRooms { [weak self] rooms in
-            self?.tableViewController.rooms = rooms
+        roomParser.findRooms(options: [.includeTomorrowEvents]) { [weak self] rooms in
+            let todayEvents = rooms.filter { $0.isTomorrow == false }
+            let tomorrowEvents = rooms.filter { $0.isTomorrow == true }
+            
+            self?.tableViewController.rooms = [todayEvents, tomorrowEvents]
         }
     }
 }
@@ -108,20 +114,29 @@ extension RoomListViewController: RootDisplayable {
 }
 
 extension RoomListViewController: RoomTableViewControllerDelegate {
-    func roomTableViewController(_ controller: RoomTableViewController, didSelect room: Room) {
-        let eventViewController = with(EKEventViewController()) {
+    private func eventController(for room: Room) -> EKEventViewController {
+        return with(EKEventViewController()) {
             $0.event = room.event
             $0.delegate = self
         }
-        let navigationController = UINavigationController(rootViewController: eventViewController)
-        navigationController.navigationBar.isTranslucent = false
-        present(navigationController, animated: true, completion: nil)
+    }
+    
+    func roomTableViewController(_ controller: RoomTableViewController, didSelect room: Room) {
+        navigationController?.pushViewController(eventController(for: room), animated: true)
     }
     
     func roomTableViewController(_ controller: RoomTableViewController, didSelectZoomFor room: Room) {
         guard let URL = room.zoomURL else { return }
         
         UIApplication.shared.open(URL, options: [:], completionHandler: nil)
+    }
+    
+    func roomTableViewController(_ controller: RoomTableViewController, previewControllerFor room: Room) -> UIViewController? {
+        return eventController(for: room)
+    }
+    
+    func roomTableViewController(_ controller: RoomTableViewController, commitPreview previewController: UIViewController) {
+        navigationController?.pushViewController(previewController, animated: false)
     }
 }
 

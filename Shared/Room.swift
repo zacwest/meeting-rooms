@@ -57,6 +57,11 @@ public struct Room: Equatable, Comparable {
         return event.endDate < Date()
     }
     
+    public var isTomorrow: Bool {
+        let calendar = NSCalendar.current
+        return calendar.startOfDay(for: event.startDate) > calendar.startOfDay(for: Date())
+    }
+    
     public var isAllDayEvent: Bool {
         return event.isAllDay
     }

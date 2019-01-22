@@ -16,8 +16,9 @@ public class RoomParser {
         public let rawValue: Int
         public init(rawValue: Int) { self.rawValue = rawValue }
         
-        public static let includePastEvents = Options(rawValue: 0b1)
-        public static let excludeAllDayEvents = Options(rawValue: 0b10)
+        public static let includeTomorrowEvents = Options(rawValue: 0b1)
+        public static let includePastEvents = Options(rawValue: 0b10)
+        public static let excludeAllDayEvents = Options(rawValue: 0b100)
     }
     
     public init(settings: Settings) {
@@ -36,19 +37,21 @@ public class RoomParser {
             let nsCalendar = Calendar.current
             
             let startDate: Date
+            
             if options.contains(.includePastEvents) {
                 startDate = nsCalendar.startOfDay(for: Date())
             } else {
                 startDate = Date()
             }
             
-            let endDate = nsCalendar.date(
-                byAdding: with(DateComponents()) {
+            let endDate = nsCalendar.date(byAdding: with(DateComponents()) {
+                if options.contains(.includeTomorrowEvents) {
+                    $0.day = 2
+                } else {
                     $0.day = 1
-                    $0.second = -1
-                },
-                to: nsCalendar.startOfDay(for: startDate)
-            )!
+                }
+                $0.second = -1
+            }, to: nsCalendar.startOfDay(for: startDate))!
             
             //
             
