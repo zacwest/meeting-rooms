@@ -5,3 +5,5 @@ This is a calendar app specializing in showing events with a focus around locati
 With how this is written right now, it is mostly useful for employees of Dropbox as it parses the conference room names and pulls out relevant dates.
 
 Patches welcome to make it more versatile, or not.
+
+<img src="https://raw.githubusercontent.com/zacwest/meeting-rooms/master/README%20Files/app.png" alt="The Whole App" width="200"><img src="https://raw.githubusercontent.com/zacwest/meeting-rooms/master/README%20Files/widget-small.png" alt="The Whole App" width="200"><img src="https://raw.githubusercontent.com/zacwest/meeting-rooms/master/README%20Files/widget-big.png" alt="The Whole App" width="200">
