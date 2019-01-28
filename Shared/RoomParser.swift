@@ -59,7 +59,7 @@ public class RoomParser {
             let officeNames = Settings.OfficeName.allCases.map { NSRegularExpression.escapedPattern(for: $0.rawValue) }.joined(separator: "|")
             
             guard let regularExpression = try? NSRegularExpression(
-                pattern: "(?<city>(?:\(officeName))) (?<building>[^-]+) - [^\\d]*(?<room>\\d+) \\((?<count>\\d+)\\) (?<name>(?:(?!\(officeNames)|\\(VC\\)).)+)",
+                pattern: "(?<city>(?:\(officeName)))[-\\s]+(?<building>[^-]+)[-\\s]+[^\\d]*(?<room>\\d+)\\s+\\((?<count>\\d+)\\)\\s+(?<name>(?:(?!\(officeNames)|\\(VC\\)|\\(AV\\)).)+)",
                 options: [.useUnicodeWordBoundaries]
             ) else {
                 DispatchQueue.main.async {
