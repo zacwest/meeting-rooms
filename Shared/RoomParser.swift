@@ -91,55 +91,68 @@ public class RoomParser {
         }
     }
     
-    class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room {
-        guard let locations = event.location else {
-            return Room(event: event)
-        }
-
-        let room = regularExpression.firstMatch(
-            in: locations,
-            options: [],
-            range: NSRange(location: 0, length: locations.utf16.count)
-        ).flatMap { (result: NSTextCheckingResult) -> Room? in
-            func string(from name: String) -> String? {
-                let range = result.range(withName: name)
-                
-                if range.location == NSNotFound {
-                    return nil
+    private class func zoomURL(for event: EKEvent) -> URL? {
+        do {
+            let dataDetector = try NSDataDetector(
+                types: NSTextCheckingTypes(NSTextCheckingResult.CheckingType.link.rawValue)
+            )
+        
+            let possibleURLs = (event.location ?? "") + (event.notes ?? "")
+            
+            var returnURL: URL?
+            
+            dataDetector.enumerateMatches(
+                in: possibleURLs,
+                options: [],
+                range: NSRange(location: 0, length: possibleURLs.utf16.count)
+            ) { result, _, stop in
+                if let url = result?.url, url.host?.lowercased().contains("zoom.us") == true {
+                    returnURL = url
+                    stop[0] = true
                 }
-
-                return (locations as NSString).substring(with: range)
             }
             
-            guard
-                let city = string(from: "city"),
-                let building = string(from: "building"),
-                let roomNumber = string(from: "room"),
-                let count = string(from: "count"),
-                let name = string(from: "name")
-            else {
-                return nil
-            }
+            return returnURL
+        } catch {
+            return nil
+        }
+    }
+    
+    class func room(for event: EKEvent, regularExpression: NSRegularExpression) -> Room {
+        var room = Room(event: event)
 
-            var zoomURL: URL?
-            
-            if let dataDetector = try? NSDataDetector(types: NSTextCheckingTypes(NSTextCheckingResult.CheckingType.link.rawValue)) {
-                let possibleURLs = (event.location ?? "") + (event.notes ?? "")
-                dataDetector.enumerateMatches(in: possibleURLs, options: [], range: NSRange(location: 0, length: possibleURLs.utf16.count), using: { result, _, stop in
-                    guard let url = result?.url else {
-                        return
-                    }
+        if let location = event.location {
+            regularExpression.firstMatch(
+                in: location,
+                options: [],
+                range: NSRange(location: 0, length: location.utf16.count)
+            ).flatMap { (result: NSTextCheckingResult) -> Void in
+                func string(from name: String) -> String? {
+                    let range = result.range(withName: name)
                     
-                    if url.host?.contains("zoom.us") == true {
-                        stop[0] = true
-                        zoomURL = url
+                    if range.location != NSNotFound {
+                        return (location as NSString).substring(with: range)
+                    } else {
+                        return nil
                     }
-                })
+                }
+                
+                room.city = string(from: "city")
+                room.building = string(from: "building")
+                room.roomNumber = string(from: "room")
+                room.count = string(from: "count")
+                room.name = string(from: "name")
             }
-            
-            return Room(event: event, city: city, building: building, roomNumber: roomNumber, count: count, name: name, zoomURL: zoomURL)
         }
         
-        return room ?? Room(event: event)
+        if let zoomURL = self.zoomURL(for: event) {
+            room.zoomURL = zoomURL
+        }
+        
+        if room.name == nil && event.location?.lowercased().contains("tuck shop") == true {
+            room.name = "Tuck Shop"
+        }
+        
+        return room
     }
 }
